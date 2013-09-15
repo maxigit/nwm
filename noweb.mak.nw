@@ -74,7 +74,24 @@ ${NOWEB_TMP_DIR}/.targets.mak:  ${NOWEB_TMP_DIR}/.dependencies.mak makefile
 -include ${NOWEB_TMP_DIR}/.targets.mak
 @
 
+Last thing is to be able to generate and clean all of the targets.
+<<*>>=
+<<target list>>
+generate_all: $(NOWEB_TARGETS)
 
+clean_noweb_generated: 
+	rm -rf $(NOWEB_TARGETS)
+
+clean_noweb_tmp:
+	rm -rf $(NOWEB_TMP_DIR)
+
+clean_noweb: clean_noweb_generated clean_noweb_tmp
+<<target list>>=
+NOWEB_TARGETS = $(shell cat $(NOWEB_TMP_DIR)/.dependencies.mak | sed  -n 's/^\([^\#].*\):.*/\1/p'  )
+
+#NOWEB_TARGETS = $(shell $(NOWEB_SOURCE_DIR)/.dependencies.all | sed -n 's/^\([#].*\)/\1/p' )
+
+@
 How to do 1-to-many
 How to do many-to-1
 
