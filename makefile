@@ -1,4 +1,4 @@
 #include noweb.mak
-noweb.mak: noweb.mak.nw
-	notangle -t $^ > $@
+noweb.mak: noweb.mak.nw makefile
+	notangle -t4 $^ > $@
 
