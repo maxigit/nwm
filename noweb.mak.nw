@@ -37,13 +37,13 @@ We need to extract the @<<*>> root
 <<extract makefile from noweb>>=
 -notangle -t4 -L'#line %L "%F":%N' $<  >> $@
 <<create target directory>>=
-mkdir -p $(dir $@)
+@mkdir -p $(dir $@)
 @
 And create the missing directory
 <<*>>=
 NOWEB_TMP_DIR:=.noweb
 ${NOWEB_TMP_DIR}/%.mak: ${NOWEB_SOURCE_DIR}/%.nw 
-	echo making $@ from $^
+	@echo making $@ from $^
 	<<create target directory>>
 	<<auto root dependency>>
 	<<extract makefile from noweb>>
@@ -59,14 +59,14 @@ and have the .mak extension)
 <<*>>=
 NOWEB_MAKEFILES := $(patsubst ${NOWEB_SOURCE_DIR}/%.nw, ${NOWEB_TMP_DIR}/%.mak, $(NOWEB_SOURCE))
 env:
-	echo NOWEB_SOURCE $(NOWEB_SOURCE)
-	echo NOWEB_MAKEFILES $(NOWEB_MAKEFILES)
-	echo NOWEB_TARGETS $(NOWEB_TARGETS)
+	@echo NOWEB_SOURCE $(NOWEB_SOURCE)
+	@echo NOWEB_MAKEFILES $(NOWEB_MAKEFILES)
+	@echo NOWEB_TARGETS $(NOWEB_TARGETS)
 @
 Let's cat all those files in one so we can include it
 <<*>>=
 $(NOWEB_TMP_DIR)/.dependencies.mak: $(NOWEB_MAKEFILES)
-	cat $^ > $@
+	@cat $^ > $@
 
 -include $(NOWEB_TMP_DIR)/.dependencies.mak
 @
@@ -98,7 +98,7 @@ clean_noweb_tmp:
 
 clean_noweb: clean_noweb_generated clean_noweb_tmp
 <<target list>>=
-NOWEB_TARGETS = $(shell cat $(NOWEB_TMP_DIR)/.dependencies.mak | sed  -n 's/^\([^\#].*\):.*/\1/p'  )
+NOWEB_TARGETS = $(shell cat $(NOWEB_TMP_DIR)/.dependencies.mak | sed  -n 's/^\([^\#].*\):.*/\1/p' | sort -u  )
 
 
 @
