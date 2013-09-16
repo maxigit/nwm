@@ -1,4 +1,5 @@
 \begin{document}
+<<README.md>>=
 This is a generic makefile to generate files and documentation with \emphasis{noweb}.
 The main idea is to use `noweb in a many to many way, ie, each noweb file can participate
 in the generation of different file, and one file can generate by many noweb file.
