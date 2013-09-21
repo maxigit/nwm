@@ -83,6 +83,7 @@ We do this with a static pattern rule.
 <<*>>=
 <<target list>>
 $(NOWEB_TARGETS): %:
+	<<create target directory>>
 	notangle $^ -R$@ | cpif $@
 @
 
